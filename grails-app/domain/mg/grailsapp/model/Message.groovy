@@ -5,6 +5,7 @@ class Message {
     Utilisateur destinataire
     String contenu
     Date dateEnvoi
+    boolean flag
 
     static constraints = {
     }
