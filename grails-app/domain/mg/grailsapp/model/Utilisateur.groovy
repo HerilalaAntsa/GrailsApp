@@ -17,5 +17,5 @@ class Utilisateur {
         email email: true, blank: false
         role(inList: ["Admin", "Joueur"])
     }
-    static transients = ['password','confirmPassword']
+    //static transients = ['password','confirmPassword']
 }
