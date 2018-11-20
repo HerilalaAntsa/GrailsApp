@@ -18,11 +18,14 @@ grails {
 				]
 			}
 			userLookup {
-				userDomainClassName = 'example.grails.User'
-				authorityJoinClassName = 'example.grails.UserSecurityRole'
+				userDomainClassName = 'mg.grailsapp.model.SecUser'
+				authorityJoinClassName = 'mg.grailsapp.model.SecUserRole'
 			}
 			authority {
-				className = 'example.grails.SecurityRole'
+				className = 'mg.grailsapp.model.SecRole'
+			}
+			logout {
+				postOnly = false
 			}
 			interceptUrlMap = [
 					[pattern: '/',                      access: ['permitAll']],
