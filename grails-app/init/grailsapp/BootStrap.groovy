@@ -16,13 +16,13 @@ class BootStrap {
 
         if ( !SecUser.findByUsername('Henintsoa') ) {
             def u = new SecUser(username: 'Henintsoa', password: 'Henintsoa')
-            u.save()
+            u.save(flush: true)
             new SecUserRole(secUser: u, secRole: SecRole.findByAuthority('ROLE_ADMIN')).save()
         }
 
         if ( !SecUser.findByUsername('Antsa') ) {
             def u = new SecUser(username: 'Antsa', password: 'Antsa')
-            u.save()
+            u.save(flush: true)
             new SecUserRole(secUser: u, secRole: SecRole.findByAuthority('ROLE_JOUEUR')).save()
         }
     }

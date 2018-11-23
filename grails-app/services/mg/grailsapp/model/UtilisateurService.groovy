@@ -59,8 +59,9 @@ class UtilisateurService {
             throw new Exception("Utilisateur erron&eacute;")
         }
         def list = [utilisateur1, utilisateur2]
-        return Message.findAllByDestinataireInListOrExpediteurInList(list,list,
+        def message = Message.findAllByDestinataireInListOrExpediteurInList(list,list,
                 [max: 10, offset: offset, sort: "dateEnvoi", order: "desc"]).reverse()
+        return message
     }
 //    def lastMessage(SecUser utilisateur, int offset = 25){
 //        def result = Message.findAll("""
