@@ -49,7 +49,7 @@ class SplashController {
 
     @Secured('permitAll')
     def getUserOnline(){
-        render sessionRegistry.allPrincipals
+        render sessionRegistry.allPrincipals.size()
     }
 
     @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
