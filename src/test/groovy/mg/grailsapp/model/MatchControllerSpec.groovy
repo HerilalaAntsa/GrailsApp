@@ -17,7 +17,7 @@ class MatchControllerSpec extends Specification implements ControllerUnitTest<Ma
 
     void "Test the index action returns the correct model"() {
         given:
-        controller.matchService = Mock(MatchService) {
+        controller.matchService = Mock(MatchJoueurService) {
             1 * list(_) >> []
             1 * count() >> 0
         }
@@ -51,7 +51,7 @@ class MatchControllerSpec extends Specification implements ControllerUnitTest<Ma
 
     void "Test the save action correctly persists"() {
         given:
-        controller.matchService = Mock(MatchService) {
+        controller.matchService = Mock(MatchJoueurService) {
             1 * save(_ as Match)
         }
 
@@ -72,7 +72,7 @@ class MatchControllerSpec extends Specification implements ControllerUnitTest<Ma
 
     void "Test the save action with an invalid instance"() {
         given:
-        controller.matchService = Mock(MatchService) {
+        controller.matchService = Mock(MatchJoueurService) {
             1 * save(_ as Match) >> { Match match ->
                 throw new ValidationException("Invalid instance", match.errors)
             }
@@ -91,7 +91,7 @@ class MatchControllerSpec extends Specification implements ControllerUnitTest<Ma
 
     void "Test the show action with a null id"() {
         given:
-        controller.matchService = Mock(MatchService) {
+        controller.matchService = Mock(MatchJoueurService) {
             1 * get(null) >> null
         }
 
@@ -104,7 +104,7 @@ class MatchControllerSpec extends Specification implements ControllerUnitTest<Ma
 
     void "Test the show action with a valid id"() {
         given:
-        controller.matchService = Mock(MatchService) {
+        controller.matchService = Mock(MatchJoueurService) {
             1 * get(2) >> new Match()
         }
 
@@ -117,7 +117,7 @@ class MatchControllerSpec extends Specification implements ControllerUnitTest<Ma
 
     void "Test the edit action with a null id"() {
         given:
-        controller.matchService = Mock(MatchService) {
+        controller.matchService = Mock(MatchJoueurService) {
             1 * get(null) >> null
         }
 
@@ -130,7 +130,7 @@ class MatchControllerSpec extends Specification implements ControllerUnitTest<Ma
 
     void "Test the edit action with a valid id"() {
         given:
-        controller.matchService = Mock(MatchService) {
+        controller.matchService = Mock(MatchJoueurService) {
             1 * get(2) >> new Match()
         }
 
@@ -155,7 +155,7 @@ class MatchControllerSpec extends Specification implements ControllerUnitTest<Ma
 
     void "Test the update action correctly persists"() {
         given:
-        controller.matchService = Mock(MatchService) {
+        controller.matchService = Mock(MatchJoueurService) {
             1 * save(_ as Match)
         }
 
@@ -176,7 +176,7 @@ class MatchControllerSpec extends Specification implements ControllerUnitTest<Ma
 
     void "Test the update action with an invalid instance"() {
         given:
-        controller.matchService = Mock(MatchService) {
+        controller.matchService = Mock(MatchJoueurService) {
             1 * save(_ as Match) >> { Match match ->
                 throw new ValidationException("Invalid instance", match.errors)
             }
@@ -205,7 +205,7 @@ class MatchControllerSpec extends Specification implements ControllerUnitTest<Ma
 
     void "Test the delete action with an instance"() {
         given:
-        controller.matchService = Mock(MatchService) {
+        controller.matchService = Mock(MatchJoueurService) {
             1 * delete(2)
         }
 

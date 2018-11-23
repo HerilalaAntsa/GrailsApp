@@ -4,8 +4,8 @@ class Message {
     SecUser expediteur
     SecUser destinataire
     String contenu
-    Date dateEnvoi
-    boolean flag
+    Date dateEnvoi = new Date()
+    boolean flag = false
 
     static constraints = {
         contenu blank: false

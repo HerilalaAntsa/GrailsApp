@@ -5,7 +5,7 @@ import static org.springframework.http.HttpStatus.*
 
 class MatchController {
 
-    MatchService matchService
+    MatchJoueurService matchService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -19,10 +19,10 @@ class MatchController {
     }
 
     def create() {
-        respond new Match(params)
+        respond new MatchJoueur(params)
     }
 
-    def save(Match match) {
+    def save(MatchJoueur match) {
         if (match == null) {
             notFound()
             return
@@ -48,7 +48,7 @@ class MatchController {
         respond matchService.get(id)
     }
 
-    def update(Match match) {
+    def update(MatchJoueur match) {
         if (match == null) {
             notFound()
             return

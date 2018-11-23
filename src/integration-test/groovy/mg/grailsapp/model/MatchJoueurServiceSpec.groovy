@@ -7,9 +7,9 @@ import org.hibernate.SessionFactory
 
 @Integration
 @Rollback
-class MatchServiceSpec extends Specification {
+class MatchJoueurServiceSpec extends Specification {
 
-    MatchService matchService
+    MatchJoueurService matchService
     SessionFactory sessionFactory
 
     private Long setupData() {
