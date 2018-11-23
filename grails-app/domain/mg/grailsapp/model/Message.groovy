@@ -1,8 +1,8 @@
 package mg.grailsapp.model
 
 class Message {
-    Utilisateur expediteur
-    Utilisateur destinataire
+    SecUser expediteur
+    SecUser destinataire
     String contenu
     Date dateEnvoi
     boolean flag

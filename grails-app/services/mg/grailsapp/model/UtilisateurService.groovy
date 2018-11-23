@@ -2,17 +2,17 @@ package mg.grailsapp.model
 
 import grails.gorm.services.Service
 
-@Service(Utilisateur)
+@Service(SecUser)
 interface UtilisateurService {
 
-    Utilisateur get(Serializable id)
+    SecUser get(Serializable id)
 
-    List<Utilisateur> list(Map args)
+    List<SecUser> list(Map args)
 
     Long count()
 
     void delete(Serializable id)
 
-    Utilisateur save(Utilisateur utilisateur)
+    SecUser save(SecUser utilisateur)
 
 }

@@ -16,11 +16,11 @@ class UtilisateurServiceSpec extends Specification {
         // TODO: Populate valid domain instances and return a valid ID
         //new Utilisateur(...).save(flush: true, failOnError: true)
         //new Utilisateur(...).save(flush: true, failOnError: true)
-        //Utilisateur utilisateur = new Utilisateur(...).save(flush: true, failOnError: true)
+        //Utilisateur secUser = new Utilisateur(...).save(flush: true, failOnError: true)
         //new Utilisateur(...).save(flush: true, failOnError: true)
         //new Utilisateur(...).save(flush: true, failOnError: true)
         assert false, "TODO: Provide a setupData() implementation for this generated test suite"
-        //utilisateur.id
+        //secUser.id
     }
 
     void "test get"() {

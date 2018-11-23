@@ -45,7 +45,7 @@ class UtilisateurControllerSpec extends Specification implements ControllerUnitT
         controller.save(null)
 
         then:"A 404 error is returned"
-        response.redirectedUrl == '/utilisateur/index'
+        response.redirectedUrl == '/secUser/index'
         flash.message != null
     }
 
@@ -66,7 +66,7 @@ class UtilisateurControllerSpec extends Specification implements ControllerUnitT
         controller.save(utilisateur)
 
         then:"A redirect is issued to the show action"
-        response.redirectedUrl == '/utilisateur/show/1'
+        response.redirectedUrl == '/secUser/show/1'
         controller.flash.message != null
     }
 
@@ -149,7 +149,7 @@ class UtilisateurControllerSpec extends Specification implements ControllerUnitT
         controller.update(null)
 
         then:"A 404 error is returned"
-        response.redirectedUrl == '/utilisateur/index'
+        response.redirectedUrl == '/secUser/index'
         flash.message != null
     }
 
@@ -170,7 +170,7 @@ class UtilisateurControllerSpec extends Specification implements ControllerUnitT
         controller.update(utilisateur)
 
         then:"A redirect is issued to the show action"
-        response.redirectedUrl == '/utilisateur/show/1'
+        response.redirectedUrl == '/secUser/show/1'
         controller.flash.message != null
     }
 
@@ -199,7 +199,7 @@ class UtilisateurControllerSpec extends Specification implements ControllerUnitT
         controller.delete(null)
 
         then:"A 404 is returned"
-        response.redirectedUrl == '/utilisateur/index'
+        response.redirectedUrl == '/secUser/index'
         flash.message != null
     }
 
@@ -215,7 +215,7 @@ class UtilisateurControllerSpec extends Specification implements ControllerUnitT
         controller.delete(2)
 
         then:"The user is redirected to index"
-        response.redirectedUrl == '/utilisateur/index'
+        response.redirectedUrl == '/secUser/index'
         flash.message != null
     }
 }
