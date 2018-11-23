@@ -47,7 +47,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Result Game</a>
+            <a class="navbar-brand" href="#">SPLASH</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -132,7 +132,7 @@
                                 <i class="fa fa-gamepad fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">124</div>
+                                <div class="huge">${listMatch.size()}</div>
                                 <div>Match(s)</div>
                             </div>
                         </div>
@@ -164,14 +164,14 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        %{--<g:each var="c" in="${listMatch}">
+                                        <g:each var="c" in="${listMatch}">
                                             <tr>
-                                                <td>${c.joueur}</td>
-                                                <td>${c.adversaire}</td>
-                                                <td>${c.scoreJ}</td>
-                                                <td>${c.scoreA}</td>
+                                                <td>${c.joueur.username}</td>
+                                                <td>${c.adversaire.username}</td>
+                                                <td>${Math.round(c.scoreJ)}</td>
+                                                <td>${Math.round(c.scoreA)}</td>
                                             </tr>
-                                        </g:each>--}%
+                                        </g:each>
                                         </tbody>
                                     </table>
                                 </div>

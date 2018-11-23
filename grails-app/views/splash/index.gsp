@@ -183,6 +183,12 @@
 							</sec:ifNotLoggedIn>
 							<sec:ifLoggedIn>
 								<span class="intro-text-small"><sec:username/>, bienvenue à Splash, Jeu de chance</span>
+								Liste des joueurs
+									<ul>
+										<g:each in="${secUserList}" var="user">
+											<li>${user.username} <g:link action="jouer" id="${user.id}">Jouer</g:link> - <g:link action="message" id="${user.id}">&Eacute;crire</g:link></li>
+										</g:each>
+									</ul>
 							</sec:ifLoggedIn>
 						</div>
 					</div>

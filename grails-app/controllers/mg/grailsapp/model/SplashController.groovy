@@ -8,7 +8,7 @@ class SplashController {
 
     @Secured('permitAll')
     def index() {
-
+        respond SecUser.list()
     }
 
     @Secured(value=['permitAll'])
@@ -80,7 +80,8 @@ class SplashController {
     def message(SecUser user)
     {
         try{
-            respond utilisateurService.message(springSecurityService.currentUser, user), model:[utilisateur: user]
+            def messageList = utilisateurService.message(springSecurityService.currentUser, user)
+            respond messageList, model:[utilisateur: user]
         }catch(Exception e){
             flash.message = e.getMessage()
             return

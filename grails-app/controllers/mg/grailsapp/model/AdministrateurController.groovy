@@ -9,12 +9,12 @@ class AdministrateurController {
         def listUserRole = SecUserRole.findAll()
         def listJoueur = SecUserRole.findAll {secRole.authority == "ROLE_JOUEUR"}
         def listAdmin = SecUserRole.findAll {secRole.authority == "ROLE_ADMIN"}
-        //def listMatch = Match.findAll()
+        def listMatch = MatchJoueur.findAll()
         [
                 listUserRole: listUserRole,
                 listJoueur: listJoueur,
                 listAdmin: listAdmin,
-                //listMatch: listMatch
+                listMatch: listMatch
         ]
     }
 }

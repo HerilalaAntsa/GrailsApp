@@ -84,7 +84,7 @@
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<sec:ifLoggedIn>
-							<li>Bienvenue <sec:username/> ! </li>
+							<li>Bienvenue <sec:username/> ${request.getAttributeNames()}!</li>
 							<li class="btn-cta"><a href="#"><span>Mon profil</span></a></li>
 						</sec:ifLoggedIn>
 					</ul>
