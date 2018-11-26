@@ -31,7 +31,7 @@
                 <g:each var="c" in="${secUserList}">
                     <tr>
                         <td>${c.id}</td>
-                        <td><img class="img-fluid"  src="${c.photo}" alt="" id="pdp-image" width="30px"></td>
+                        <td><img class="img-fluid"  src="${c.photo}" alt="" width="30px"></td>
                         <td><g:link controller="secUser" action="show" id="${c.id}">${c.username}</g:link></td>
                     </tr>
                 </g:each>

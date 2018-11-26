@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory
 @Rollback
 class MatchJoueurServiceSpec extends Specification {
 
-    MatchJoueurService matchService
+    MatchJoueurService matchJoueurService
     SessionFactory sessionFactory
 
     private Long setupData() {
@@ -27,14 +27,14 @@ class MatchJoueurServiceSpec extends Specification {
         setupData()
 
         expect:
-        matchService.get(1) != null
+        matchJoueurService.get(1) != null
     }
 
     void "test list"() {
         setupData()
 
         when:
-        List<Match> matchList = matchService.list(max: 2, offset: 2)
+        List<MatchJoueur> matchList = matchJoueurService.list(max: 2, offset: 2)
 
         then:
         matchList.size() == 2
@@ -45,28 +45,28 @@ class MatchJoueurServiceSpec extends Specification {
         setupData()
 
         expect:
-        matchService.count() == 5
+        matchJoueurService.count() == 5
     }
 
     void "test delete"() {
         Long matchId = setupData()
 
         expect:
-        matchService.count() == 5
+        matchJoueurService.count() == 5
 
         when:
-        matchService.delete(matchId)
+        matchJoueurService.delete(matchId)
         sessionFactory.currentSession.flush()
 
         then:
-        matchService.count() == 4
+        matchJoueurService.count() == 4
     }
 
     void "test save"() {
         when:
         assert false, "TODO: Provide a valid instance to save"
-        Match match = new Match()
-        matchService.save(match)
+        MatchJoueur match = new MatchJoueur()
+        matchJoueurService.save(match)
 
         then:
         match.id != null

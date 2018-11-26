@@ -84,7 +84,13 @@
 					<ul>
 						<sec:ifLoggedIn>
 							<li>Bienvenue <sec:username/> ! </li>
-							<li class="btn-cta"><a href="#"><span>Mon profil</span></a></li>
+							<li class="has-dropdown btn-cta">
+								<a href="#">Mon Profil</a>
+								<ul class="dropdown" style="display: none;">
+									<li><g:link action="profil">Voir</g:link></li>
+									<li> <g:link controller="logout">Déconnexion</g:link></li>
+								</ul>
+							</li>
 						</sec:ifLoggedIn>
 					</ul>
 				</div>

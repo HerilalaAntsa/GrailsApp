@@ -1,5 +1,6 @@
 package mg.grailsapp.model
 import grails.plugin.springsecurity.annotation.Secured
+
 class SplashController {
 
     def springSecurityService
@@ -8,7 +9,7 @@ class SplashController {
 
     @Secured('permitAll')
     def index() {
-        respond SecUser.list()
+        respond SecUser.list() , model:[unread : utilisateurService.unreadMessage(springSecurityService.currentUser)]
     }
 
     @Secured(value=['permitAll'])
@@ -56,8 +57,11 @@ class SplashController {
     def ecrire(SecUser user, String contenu)
     {
         try{
-            utilisateurService.ecrire(springSecurityService.currentUser, user, contenu)
-            utilisateurService.lire(springSecurityService.currentUser, user)
+            def message = utilisateurService.ecrire(springSecurityService.currentUser, user, contenu)
+            if(request.xhr){
+                respond message
+                return
+            }
         }catch(Exception e){
             flash.message = e.getMessage()
         }
@@ -65,7 +69,7 @@ class SplashController {
     }
 
     @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
-    def lire(SecUser user, String contenu)
+    def lire(SecUser user)
     {
         try{
             utilisateurService.lire(springSecurityService.currentUser, user)
@@ -80,11 +84,53 @@ class SplashController {
     def message(SecUser user)
     {
         try{
-            def messageList = utilisateurService.message(springSecurityService.currentUser, user)
-            respond messageList, model:[utilisateur: user]
+            respond utilisateurService.message(springSecurityService.currentUser, user), model:[utilisateur: user, online: true]
         }catch(Exception e){
+            e.printStackTrace()
             flash.message = e.getMessage()
             return
         }
+    }
+
+    @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
+    def otherMessage(SecUser user)
+    {
+        try{
+            if(request.xhr){
+                respond utilisateurService.otherMessage(springSecurityService.currentUser, user)
+                return
+            }
+        }catch(Exception e){
+            e.printStackTrace()
+            flash.message = e.getMessage()
+            render e
+            return
+        }
+        redirect(action: 'message')
+    }
+
+    @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
+    def newMessage(SecUser user)
+    {
+        try{
+            if(request.xhr){
+                def message = utilisateurService.newMessage(springSecurityService.currentUser, user)
+                respond message
+                if(message?.size() > 0){
+                    utilisateurService.lire(springSecurityService.currentUser, user)
+                }
+                return
+            }
+        }catch(Exception e){
+            e.printStackTrace()
+            flash.message = e.getMessage()
+            return
+        }
+        redirect(action: 'message', params: [id:user.id])
+    }
+    @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
+    def profil()
+    {
+        respond MatchJoueur.findAllByJoueurOrAdversaire(springSecurityService.currentUser, springSecurityService.currentUser)
     }
 }

@@ -72,7 +72,7 @@
                         <g:link controller="secUser"><i class="fa fa-user fa-fw"></i> Gestion des user<span class="fa arrow"></span></g:link>
                     </li>
                     <li>
-                        <g:link controller="match"><i class="fa fa-gamepad fa-fw"></i> Gestion des matchs<span class="fa arrow"></span></g:link>
+                        <g:link controller="matchJoueur"><i class="fa fa-gamepad fa-fw"></i> Gestion des matchs<span class="fa arrow"></span></g:link>
                     </li>
                     <li>
                         <g:link controller="message"><i class="fa fa-comments fa-fw"></i> Gestion des messages<span class="fa arrow"></span></g:link>

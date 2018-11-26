@@ -58,10 +58,57 @@ class UtilisateurService {
         if(utilisateur1 == utilisateur2){
             throw new Exception("Utilisateur erron&eacute;")
         }
-        def list = [utilisateur1, utilisateur2]
-        def message = Message.findAllByDestinataireInListOrExpediteurInList(list,list,
-                [max: 10, offset: offset, sort: "dateEnvoi", order: "desc"]).reverse()
-        return message
+        def message = Message.withCriteria {
+            or{
+                and {
+                    eq("expediteur", utilisateur1)
+                    eq("destinataire", utilisateur2)
+                }
+                and {
+                    eq("expediteur", utilisateur2)
+                    eq("destinataire", utilisateur1)
+                }
+            }
+            maxResults(10)
+            order("dateEnvoi", "desc")
+            firstResult(offset)
+        }
+        return message.reverse()
+    }
+    def otherMessage(SecUser utilisateur, SecUser expediteur){
+        def message = Message.findAll("""
+           SELECT m, e.username 
+           FROM Message AS m 
+           INNER JOIN m.expediteur AS e 
+           WHERE m.destinataire = :destinataire 
+           AND m.expediteur != :expediteur 
+           AND m.flag = :flag AND m.toasted =:toasted
+        """, [destinataire: utilisateur, expediteur: expediteur, flag:false, toasted:false],[sort: "dateEnvoi", order: "desc"])
+        message.each {
+            def m ->
+            m[0].toasted = true
+            m[0].save(flush:true)
+        }
+        return message.reverse()
+    }
+    def newMessage(SecUser destinataire, SecUser expediteur){
+        return Message.findAllByDestinataireAndExpediteurAndFlag(destinataire,expediteur,false, [sort: "dateEnvoi", order: "desc"]).reverse()
+    }
+    def unreadMessage(SecUser destinataire){
+        def list = Message.withCriteria {
+            eq('destinataire', destinataire)
+            eq('flag', false)
+            order('dateEnvoi', 'desc')
+            projections{
+                property('id')
+                groupProperty('expediteur')
+            }
+        }
+        if(list){
+            println list
+            def message = Message.findAllByIdInList(list)
+            return message.reverse()
+        }
     }
 //    def lastMessage(SecUser utilisateur, int offset = 25){
 //        def result = Message.findAll("""

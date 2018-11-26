@@ -32,7 +32,7 @@
                     <f:all bean="secUser"/>
                 </fieldset>
                 <div class="fieldcontain">
-                    <label for="role">Role</label>
+                    <label for="role_authority">Role</label>
                     <g:select name="role_authority" from="${[ 'ROLE_JOUEUR','ROLE_ADMIN']}"
                               valueMessagePrefix="role_authority" />
                 </div>

@@ -1,21 +1,22 @@
 package mg.grailsapp.model
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
-class MatchController {
+@Secured("ROLE_ADMIN")
+class MatchJoueurController {
 
-    MatchJoueurService matchService
-
+    MatchJoueurService matchJoueurService
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond matchService.list(params), model:[matchCount: matchService.count()]
+        respond matchJoueurService.list(params), model:[matchCount: matchJoueurService.count()]
     }
 
     def show(Long id) {
-        respond matchService.get(id)
+        respond matchJoueurService.get(id)
     }
 
     def create() {
@@ -29,7 +30,7 @@ class MatchController {
         }
 
         try {
-            matchService.save(match)
+            matchJoueurService.save(match)
         } catch (ValidationException e) {
             respond match.errors, view:'create'
             return

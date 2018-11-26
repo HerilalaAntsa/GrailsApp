@@ -3,7 +3,7 @@ package mg.grailsapp.model
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
-
+@Secured("ROLE_ADMIN")
 class SecUserController {
 
     def springSecurityService
