@@ -10,7 +10,6 @@ class Message {
 
     static constraints = {
         contenu blank: false
-        expediteur notEqual: destinataire
     }
     static mapping = {
         contenu type: 'text'

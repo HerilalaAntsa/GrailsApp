@@ -124,6 +124,9 @@
 
 					<div class="row row-mt-15em">
 						<div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
+							<g:if test="${flash.message}">
+							<span class="text-danger lead">Problème! <g:message code="${flash.message}" default="${flash.message}"/></span>
+							</g:if>
 							<h1>Tenter votre chance face aux joueurs.</h1>
 							<g:if test="${flash.message}">
 								<div style="color:#f6646a;background-color: rgba(0, 0, 0, 0.25);display: inline;padding: .5em;"
@@ -205,10 +208,12 @@
 							</sec:ifNotLoggedIn>
 							<sec:ifLoggedIn>
 								<span class="intro-text-small"><sec:username/>, bienvenue à Splash, Jeu de chance</span>
-								Liste des joueurs
+								Liste des joueurs en ligne
 									<ul>
-										<g:each in="${secUserList}" var="user">
+										<g:each in="${grailsUserList}" var="user" >
+											<g:if test="${sec.username() != user.username}">
 											<li>${user.username} <g:link action="jouer" id="${user.id}">Jouer</g:link> - <g:link action="message" id="${user.id}">&Eacute;crire</g:link></li>
+											</g:if>
 										</g:each>
 									</ul>
 							</sec:ifLoggedIn>

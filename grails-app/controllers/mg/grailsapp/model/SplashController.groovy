@@ -1,5 +1,6 @@
 package mg.grailsapp.model
 import grails.plugin.springsecurity.annotation.Secured
+import grails.plugin.springsecurity.userdetails.GrailsUser
 
 class SplashController {
 
@@ -9,7 +10,7 @@ class SplashController {
 
     @Secured('permitAll')
     def index() {
-        respond SecUser.list() , model:[unread : utilisateurService.unreadMessage(springSecurityService.currentUser)]
+        respond sessionRegistry.allPrincipals , model:[unread : utilisateurService.unreadMessage(springSecurityService.currentUser)]
     }
 
     @Secured(value=['permitAll'])
@@ -33,16 +34,25 @@ class SplashController {
     @Secured('ROLE_JOUEUR')
     def jouer(SecUser user)
     {
-//        def users = sessionRegistry.allPrincipals
-//        if(users.contains(user)){
-//            flash.message = "Cet utilisateur n'est pas connecté"
-//        }
+        def users = sessionRegistry.allPrincipals
+        boolean contains = false
+        users.each {
+            GrailsUser u ->
+            if(u.username == user.username){
+                contains = true
+            }
+                println u.username == user.username
+        }
+        if(!contains){
+            flash.message = "Cet utilisateur n'est pas connecté"
+            redirect(action: "index" )
+        }
         try{
             def match = utilisateurService.jouer(springSecurityService.currentUser, user)
             [match : match]
         }catch(Exception e){
             flash.message = e.getMessage()
-            render(view: 'jouer')
+            redirect(action: "index" )
             return
         }
 
@@ -50,12 +60,26 @@ class SplashController {
 
     @Secured('permitAll')
     def getUserOnline(){
-        render sessionRegistry.allPrincipals.size()
+        render sessionRegistry.allPrincipals
     }
 
     @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
     def ecrire(SecUser user, String contenu)
     {
+        def users = sessionRegistry.allPrincipals
+        boolean contains = false
+        users.each {
+            GrailsUser u ->
+                if(u.username == user.username){
+                    contains = true
+                }
+                println u.username == user.username
+        }
+        if(!contains){
+            flash.message = "Cet utilisateur n'est pas connecté"
+            render(template: 'sendMessageFail')
+            return
+        }
         try{
             def message = utilisateurService.ecrire(springSecurityService.currentUser, user, contenu)
             if(request.xhr){
@@ -83,6 +107,15 @@ class SplashController {
     @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
     def message(SecUser user)
     {
+        def users = sessionRegistry.allPrincipals
+        boolean contains = false
+        users.each {
+            GrailsUser u ->
+                if(u.username == user.username){
+                    contains = true
+                }
+                println u.username == user.username
+        }
         try{
             respond utilisateurService.message(springSecurityService.currentUser, user), model:[utilisateur: user, online: true]
         }catch(Exception e){

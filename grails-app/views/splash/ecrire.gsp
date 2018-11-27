@@ -1,4 +1,3 @@
-
 											<li class="right clearfix">
 												<span class="chat-img pull-right">
 													<img src="${message.expediteur.photo}" alt="${message.expediteur.username} Avatar" class="img-circle img-responsive">
