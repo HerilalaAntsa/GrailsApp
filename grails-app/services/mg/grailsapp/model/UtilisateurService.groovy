@@ -2,9 +2,12 @@ package mg.grailsapp.model
 
 import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
+import grails.plugin.springsecurity.userdetails.GrailsUser
 
 @Service(SecUser)
 class UtilisateurService {
+
+    def sessionRegistry
 
     @Transactional
     SecUser inscription(SecUser user, String authority){
@@ -12,13 +15,29 @@ class UtilisateurService {
         new SecUserRole(secUser: user, secRole: SecRole.findByAuthority(authority)).save()
         return user
     }
-
+    def online(SecUser user){
+        def users = sessionRegistry.allPrincipals
+        boolean contains = false
+        users.each {
+            GrailsUser u ->
+                if(u?.username == user?.username){
+                    contains = true
+                }
+        }
+        return contains
+    }
     MatchJoueur jouer(SecUser joueur, SecUser adversaire){
         if(adversaire == null){
             throw new Exception('user.notFound.message')
         }
-        if(adversaire == joueur){
+        else if(adversaire == joueur){
             throw new Exception("L'adversaire ne peut etre le joueur lui meme")
+        }
+        else if(!adversaire.authorities.contains(SecRole.findByAuthority('ROLE_JOUEUR'))){
+            throw new Exception("L'adversaire n'est pas un joueur")
+        }
+        if(!online(adversaire)){
+            throw new Exception("Cet utilisateur n'est pas connecté")
         }
         def score1 = Math.random() * 20
         def score2 = Math.random() * 20
@@ -29,6 +48,9 @@ class UtilisateurService {
     def ecrire(SecUser expediteur, SecUser destinataire, String contenu){
         if(destinataire == null){
             throw new Exception('user.notFound.message')
+        }
+        else if(!online(destinataire)){
+            throw new Exception("Cet utilisateur n'est pas connecté")
         }
         if(destinataire == expediteur){
             throw new Exception("Le destinataire ne peut etre l'exp&eacute;diteur lui meme")
@@ -110,21 +132,4 @@ class UtilisateurService {
             return message.reverse()
         }
     }
-//    def lastMessage(SecUser utilisateur, int offset = 25){
-//        def result = Message.findAll("""
-//            FROM Message message WHERE message.id in (
-//                SELECT id, other FROM Message m WHERE message.id in(
-//                    SELECT id, expediteur as other
-//                    FROM Message
-//                    WHERE  destinataire = :utilisateur
-//                ) or message.id in (
-//                    SELECT id, destinataire as other
-//                    FROM Message
-//                    WHERE expediteur LIKE :utilisateur
-//                ) GROUP BY other
-//            )
-//        """,
-//                [utilisateur: utilisateur, max: 10, offset: offset, sort: "dateEnvoi", order: "desc"])
-//        return result
-//    }
 }

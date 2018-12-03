@@ -34,19 +34,6 @@ class SplashController {
     @Secured('ROLE_JOUEUR')
     def jouer(SecUser user)
     {
-        def users = sessionRegistry.allPrincipals
-        boolean contains = false
-        users.each {
-            GrailsUser u ->
-            if(u.username == user.username){
-                contains = true
-            }
-                println u.username == user.username
-        }
-        if(!contains){
-            flash.message = "Cet utilisateur n'est pas connecté"
-            redirect(action: "index" )
-        }
         try{
             def match = utilisateurService.jouer(springSecurityService.currentUser, user)
             [match : match]
@@ -66,16 +53,7 @@ class SplashController {
     @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
     def ecrire(SecUser user, String contenu)
     {
-        def users = sessionRegistry.allPrincipals
-        boolean contains = false
-        users.each {
-            GrailsUser u ->
-                if(u.username == user.username){
-                    contains = true
-                }
-                println u.username == user.username
-        }
-        if(!contains){
+        if(!utilisateurService.online(user)){
             flash.message = "Cet utilisateur n'est pas connecté"
             render(template: 'sendMessageFail')
             return
@@ -83,7 +61,7 @@ class SplashController {
         try{
             def message = utilisateurService.ecrire(springSecurityService.currentUser, user, contenu)
             if(request.xhr){
-                respond message
+                render(template: 'ecrire', model: ['message':message])
                 return
             }
         }catch(Exception e){
@@ -105,19 +83,12 @@ class SplashController {
     }
 
     @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
-    def message(SecUser user)
+    def messages(SecUser user)
     {
-        def users = sessionRegistry.allPrincipals
-        boolean contains = false
-        users.each {
-            GrailsUser u ->
-                if(u.username == user.username){
-                    contains = true
-                }
-                println u.username == user.username
-        }
         try{
-            respond utilisateurService.message(springSecurityService.currentUser, user), model:[utilisateur: user, online: true]
+            print(utilisateurService.online(user))
+            respond utilisateurService.message(springSecurityService.currentUser, user),
+                    model:[utilisateur: user, online: utilisateurService.online(user)]
         }catch(Exception e){
             e.printStackTrace()
             flash.message = e.getMessage()
@@ -139,7 +110,7 @@ class SplashController {
             render e
             return
         }
-        redirect(action: 'message')
+        redirect(action: 'messages')
     }
 
     @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
@@ -148,7 +119,7 @@ class SplashController {
         try{
             if(request.xhr){
                 def message = utilisateurService.newMessage(springSecurityService.currentUser, user)
-                respond message
+                render(template: 'newMessage',collection: message, var:'message')
                 if(message?.size() > 0){
                     utilisateurService.lire(springSecurityService.currentUser, user)
                 }
@@ -157,9 +128,10 @@ class SplashController {
         }catch(Exception e){
             e.printStackTrace()
             flash.message = e.getMessage()
+            render(template: 'sendMessageFail')
             return
         }
-        redirect(action: 'message', params: [id:user.id])
+        redirect(action: 'messages', params: [id:user.id])
     }
     @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
     def profil()

@@ -123,42 +123,15 @@
 										<ul class="chat" id="chat-container">
 											<g:each in="${messageList}" var="message">
 												<g:if test="${utilisateur == message.expediteur}">
-
-													<li class="left clearfix ${message.flag? '' : 'bg-success'}">
-														<span class="chat-img pull-left">
-															<img src="${message.expediteur.photo}" alt="${message.expediteur.username} Avatar" class="img-circle img-responsive">
-														</span>
-														<div class="chat-body clearfix">
-															<div class="header">
-																<strong class="primary-font">${message.expediteur.username}</strong> <small class="pull-right text-muted">
-																<span class="glyphicon glyphicon-time"></span></span><g:formatDate date="${message.dateEnvoi}" type="datetime" style="MEDIUM"/></small>
-															</div>
-															<p>
-																${message.contenu}
-															</p>
-														</div>
-													</li>
+													<g:render template="newMessage" model="[message: message, flag:message.flag]"/>
 												</g:if>
 												<g:else>
-													<li class="right clearfix">
-														<span class="chat-img pull-right">
-															<img src="${message.expediteur.photo}" alt="${message.expediteur.username} Avatar" class="img-circle img-responsive">
-														</span>
-														<div class="chat-body clearfix">
-															<div class="header">
-																<small class=" text-muted"><span class="glyphicon glyphicon-time"></span></span><g:formatDate date="${message.dateEnvoi}" type="datetime" style="MEDIUM"/></small>
-																<strong class="pull-right primary-font">${message.expediteur.username}</strong>
-															</div>
-															<p class="pull-right">
-																${message.contenu}
-															</p>
-														</div>
-													</li>
+													<g:render template="ecrire" model="[message: message]"/>
 												</g:else>
 											</g:each>
 										</ul>
 									</div>
-									<g:if test="${online}">
+									<g:if test="${online==true}">
 										<form action="#" >
 											<div class="input-group">
 												<textarea name="contenu" id="btn-chat-input" rows="1" class="form-control input-sm" placeholder="Taper votre message ici..."></textarea>
@@ -211,7 +184,7 @@
     var sendUrl = '<g:createLink action="ecrire" absolute="true" id="${utilisateur?.id}"/>' ;
     var luUrl = '<g:createLink action="lire" absolute="true" id="${utilisateur?.id}"/>' ;
     var otherMessageUrl = '<g:createLink action="otherMessage" absolute="true" id="${utilisateur?.id}"/>' ;
-    var readUrl = '<g:createLink absolute="true" action="message" id=""/>';
+    var readUrl = '<g:createLink absolute="true" action="messages" id=""/>';
     function loadMessage(data){
         $('#chat-container').append(data);
         scroll();

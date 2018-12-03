@@ -99,7 +99,7 @@ dataSource:
     dialect : org.hibernate.dialect.MySQL5InnoDBDialect
     username: 'root'
     password: 'root'
-    logSql: true
+#    logSql: true
 
 #environments:
 #    development:

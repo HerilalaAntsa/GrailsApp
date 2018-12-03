@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="admin" />
         <g:set var="entityName" value="${message(code: 'match.label', default: 'Match')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
@@ -27,7 +27,7 @@
             </g:hasErrors>
             <g:form resource="${this.matchJoueur}" method="POST">
                 <fieldset class="form">
-                    <f:all bean="match"/>
+                    <f:all bean="matchJoueur"/>
                 </fieldset>
                 <fieldset class="buttons">
                     <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />

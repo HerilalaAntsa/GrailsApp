@@ -123,6 +123,10 @@
 				<div class="col-md-12 col-md-offset-0 text-left">
 					<div class="row row-mt-15em">
 						<h2>Match Joués par vous et contre vous</h2>
+						<sec:ifNotGranted roles="ROLE_JOUEUR">
+						<span class="text-danger">Vous ne pouvez pas lancer de match ou être un adversaire</span>
+						</sec:ifNotGranted>
+						<sec:ifAnyGranted roles="ROLE_JOUEUR">
 						<div class="col-md-12 mt-text animate-box chat-div" data-animate-effect="fadeInUp">
 							<table class="table table-striped">
 								<thead>
@@ -139,6 +143,7 @@
 								</tbody>
 							</table>
 						</div>
+						</sec:ifAnyGranted>
 					</div>
 
 				</div>

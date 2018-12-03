@@ -56,7 +56,7 @@ class MatchJoueurController {
         }
 
         try {
-            matchService.save(match)
+            matchJoueurService.save(match)
         } catch (ValidationException e) {
             respond match.errors, view:'edit'
             return
@@ -77,7 +77,7 @@ class MatchJoueurController {
             return
         }
 
-        matchService.delete(id)
+        matchJoueurService.delete(id)
 
         request.withFormat {
             form multipartForm {

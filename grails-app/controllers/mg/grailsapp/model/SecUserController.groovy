@@ -105,11 +105,8 @@ class SecUserController {
             return
         }
         SecUser u = SecUser.get(id)
-        def sur = SecUserRole.findBySecUser(u)
-        sur.delete()
+        //SecUserRole.removeAll(u)
         u.delete()
-
-        u.delete(flush: true)
 
         request.withFormat {
             form multipartForm {
