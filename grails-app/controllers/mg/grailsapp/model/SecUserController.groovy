@@ -3,7 +3,7 @@ package mg.grailsapp.model
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 import grails.plugin.springsecurity.annotation.Secured
-
+@Secured("ROLE_ADMIN")
 class SecUserController {
 
     def springSecurityService
@@ -105,11 +105,8 @@ class SecUserController {
             return
         }
         SecUser u = SecUser.get(id)
-        def sur = SecUserRole.findBySecUser(u)
-        sur.delete()
+        //SecUserRole.removeAll(u)
         u.delete()
-
-        u.delete(flush: true)
 
         request.withFormat {
             form multipartForm {

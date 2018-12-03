@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="admin" />
         <g:set var="entityName" value="${message(code: 'match.label', default: 'Match')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
@@ -19,10 +19,10 @@
             <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:display bean="match" />
-            <g:form resource="${this.match}" method="DELETE">
+            <f:display bean="matchJoueur" />
+            <g:form resource="${this.matchJoueur}" method="DELETE">
                 <fieldset class="buttons">
-                    <g:link class="edit" action="edit" resource="${this.match}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+                    <g:link class="edit" action="edit" resource="${this.matchJoueur}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
                     <input class="delete" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
                 </fieldset>
             </g:form>

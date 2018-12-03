@@ -84,8 +84,30 @@
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<sec:ifLoggedIn>
-							<li>Bienvenue <sec:username/> ${request.getAttributeNames()}!</li>
-							<li class="btn-cta"><a href="#"><span>Mon profil</span></a></li>
+							<li>Bienvenue <sec:username/>!</li>
+									<g:if test="${unread}">
+							<li class="has-dropdown btn-cta">
+								<a href="#"><span>Mes messages <small class="label label-danger">${unread?.size()}</small></span></a>
+								<ul class="dropdown" style="display: none;">
+									<g:each in="${unread}" var="message">
+									<li>
+										<g:link action="message" id="${message.expediteur.id}">
+											<strong>${message.expediteur.username}</strong>
+											<p>${message.contenu}</p>
+										</g:link>
+									</li>
+									<li class="divider" role="separator"></li>
+									</g:each>
+								</ul>
+							</li>
+							</g:if>
+							<li class="has-dropdown btn-cta">
+								<a href="#">Mon Profil</a>
+								<ul class="dropdown" style="display: none;">
+									<li><g:link action="profil">Voir</g:link></li>
+									<li> <g:link controller="logout">Déconnexion</g:link></li>
+								</ul>
+							</li>
 						</sec:ifLoggedIn>
 					</ul>
 				</div>
@@ -96,69 +118,32 @@
 	
 	<header id="gtco-header" class="gtco-cover" role="banner" style="background-image: url('${assetPath(src : "background.jpg")}')">
 		<div class="overlay"></div>
-		<div class="gtco-container" id="gtco-counter">
-			<div class="row row-mt-15em">
+		<div class="gtco-container">
+			<div class="row">
 				<div class="col-md-12 col-md-offset-0 text-left">
-
-					<div class="row">
-
-						<g:if test="${flash.message}">
-						<div class="col-sm-12">
-							<span class="counter">Problème! <g:message code="${flash.message}" default="${flash.message}"/></span>
+					<div class="row row-mt-15em">
+						<h2>Match Joués par vous et contre vous</h2>
+						<sec:ifNotGranted roles="ROLE_JOUEUR">
+						<span class="text-danger">Vous ne pouvez pas lancer de match ou être un adversaire</span>
+						</sec:ifNotGranted>
+						<sec:ifAnyGranted roles="ROLE_JOUEUR">
+						<div class="col-md-12 mt-text animate-box chat-div" data-animate-effect="fadeInUp">
+							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th>Date</th>
+									<th>Joueur</th>
+									<th>Adversaire</th>
+									<th>Score Joueur</th>
+									<th>Score Adversaire</th>
+								</tr>
+								</thead>
+								<tbody>
+									<g:render template="matchTemplate" collection="${matchJoueurList}" var="match"/>
+								</tbody>
+							</table>
 						</div>
-						</g:if>
-						<g:elseif test="${messageList != null}">
-							<h2>Messages échangés avec ${utilisateur.username}</h2>
-						<div class="col-md-12 chat-div">
-							<div class="panel-body">
-								<ul class="chat">
-									<g:each in="${messageList}" var="message">
-										<g:if test="${utilisateur == message.expediteur}">
-
-											<li class="left clearfix ${message.flag? '' : 'bg-success'}">
-												<span class="chat-img pull-left">
-													<img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
-												</span>
-												<div class="chat-body clearfix">
-													<div class="header">
-														<strong class="primary-font">${message.expediteur.username}</strong> <small class="pull-right text-muted">
-														<span class="glyphicon glyphicon-time"></span>${message.dateEnvoi}</small>
-													</div>
-													<p>
-														${message.contenu}
-													</p>
-												</div>
-											</li>
-										</g:if>
-										<g:else>
-											<li class="right clearfix">
-												<span class="chat-img pull-right">
-													<img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
-												</span>
-												<div class="chat-body clearfix">
-													<div class="header">
-														<small class=" text-muted"><span class="glyphicon glyphicon-time"></span>${message.dateEnvoi}</small>
-														<strong class="pull-right primary-font">${message.expediteur.username}</strong>
-													</div>
-													<p class="pull-right">
-														${message.contenu}
-													</p>
-												</div>
-											</li>
-										</g:else>
-									</g:each>
-								</ul>
-							</div>
-							<g:form action="ecrire" id="${utilisateur.id}">
-							<div class="input-group">
-								<input name="contenu" id="btn-input" type="text" class="form-control input-sm" placeholder="Taper votre message ici..." />
-								<span class="input-group-btn">
-									<button class="btn btn-warning btn-sm" id="btn-chat">Envoyer</button>
-								</span>
-							</div>
-							</g:form>
-						</div>
-						</g:elseif>
+						</sec:ifAnyGranted>
 					</div>
 
 				</div>

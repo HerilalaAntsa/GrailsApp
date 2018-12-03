@@ -83,8 +83,30 @@
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<sec:ifLoggedIn>
-						<li class="btn-cta"><a href="#"><span>Mon profil</span></a></li>
-						<li> <g:link controller="logout">Déconnexion</g:link></a></li>
+							<li>Bienvenue <sec:username/>!</li>
+							<g:if test="${unread}">
+							<li class="has-dropdown btn-cta">
+								<a href="#"><span>Mes messages <small class="label label-danger">${unread?.size()}</small></span></a>
+								<ul class="dropdown" style="display: none;">
+									<g:each in="${unread}" var="message">
+									<li>
+										<g:link action="messages" id="${message.expediteur.id}">
+											<strong>${message.expediteur.username}</strong>
+											<p>${message.contenu}</p>
+										</g:link>
+									</li>
+									<li class="divider" role="separator"></li>
+									</g:each>
+								</ul>
+							</li>
+							</g:if>
+							<li class="has-dropdown btn-cta">
+								<a href="#">Mon Profil</a>
+								<ul class="dropdown" style="display: none;">
+									<li><g:link action="profil">Voir</g:link></li>
+									<li> <g:link controller="logout">Déconnexion</g:link></li>
+								</ul>
+							</li>
 						</sec:ifLoggedIn>
 					</ul>
 				</div>
@@ -102,13 +124,13 @@
 
 					<div class="row row-mt-15em">
 						<div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
-							<h1>Tenter votre chance face aux joueurs.</h1>
 							<g:if test="${flash.message}">
 								<div style="color:#f6646a;background-color: rgba(0, 0, 0, 0.25);display: inline;padding: .5em;"
 									 class="message" role="status">
 									<g:message code="${flash.message}" args="${flash.args}" default="${flash.default}"/>
 								</div>
 							</g:if>
+							<h1>Tenter votre chance face aux joueurs.</h1>
 						</div>
 						<div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
 							<sec:ifNotLoggedIn>
@@ -120,7 +142,7 @@
 									</ul>
 									<div class="tab-content">
 										<div class="tab-content-inner active" data-content="signup">
-											<g:form name="inscription" url="[controller:'splash',action:'inscription']">
+											<g:uploadForm name="inscription" url="[controller:'splash',action:'inscription']">
 												<div class="row form-group">
 													<div class="col-md-12">
 														<label for="username">Votre pseudo</label>
@@ -151,11 +173,11 @@
 														<input type="submit" class="btn btn-primary" value="Inscription">
 													</div>
 												</div>
-											</g:form>
+											</g:uploadForm>
 										</div>
 
 										<div class="tab-content-inner" data-content="login">
-											<g:form name="inscription" url="[controller:'login',action:'authenticate']">
+											<g:form name="authentification" url="[controller:'login',action:'authenticate']">
 												<div class="row form-group">
 													<div class="col-md-12">
 														<label for="username">Votre pseudo</label>
@@ -183,11 +205,9 @@
 							</sec:ifNotLoggedIn>
 							<sec:ifLoggedIn>
 								<span class="intro-text-small"><sec:username/>, bienvenue à Splash, Jeu de chance</span>
-								Liste des joueurs
-									<ul>
-										<g:each in="${secUserList}" var="user">
-											<li>${user.username} <g:link action="jouer" id="${user.id}">Jouer</g:link> - <g:link action="message" id="${user.id}">&Eacute;crire</g:link></li>
-										</g:each>
+								Liste des joueurs en ligne
+									<ul id="liste-utilisateur">
+										<g:render template="onlineUser" collection="${grailsUserList}" var="user" />
 									</ul>
 							</sec:ifLoggedIn>
 						</div>

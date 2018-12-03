@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="admin" />
         <g:set var="entityName" value="${message(code: 'secUser.label', default: 'Utilisateur')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
@@ -31,7 +31,7 @@
                 <g:each var="c" in="${secUserList}">
                     <tr>
                         <td>${c.id}</td>
-                        <td><img class="img-fluid"  src="${c.photo}" alt="" id="pdp-image" width="30px"></td>
+                        <td><img class="img-fluid"  src="${c.photo}" alt="" width="30px"></td>
                         <td><g:link controller="secUser" action="show" id="${c.id}">${c.username}</g:link></td>
                     </tr>
                 </g:each>

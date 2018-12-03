@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="admin" />
         <g:set var="entityName" value="${message(code: 'match.label', default: 'Match')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
@@ -18,7 +18,7 @@
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:table collection="${matchList}" />
+            <f:table collection="${matchJoueurList}" />
 
             <div class="pagination">
                 <g:paginate total="${matchCount ?: 0}" />
