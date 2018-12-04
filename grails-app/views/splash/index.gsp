@@ -142,7 +142,7 @@
 									</ul>
 									<div class="tab-content">
 										<div class="tab-content-inner active" data-content="signup">
-											<g:uploadForm name="inscription" url="[controller:'splash',action:'inscription']">
+											<g:form name="inscription" url="[controller:'splash',action:'inscription']">
 												<div class="row form-group">
 													<div class="col-md-12">
 														<label for="username">Votre pseudo</label>
@@ -161,19 +161,13 @@
 														<input type="password" class="form-control" name="confirmPassword">
 													</div>
 												</div>
-												<div class="row form-group">
-													<div class="col-md-12">
-														<label for="photo">Votre Avatar</label>
-														<input type="file" class="form-control" name="photo">
-													</div>
-												</div>
 
 												<div class="row form-group">
 													<div class="col-md-12">
 														<input type="submit" class="btn btn-primary" value="Inscription">
 													</div>
 												</div>
-											</g:uploadForm>
+											</g:form>
 										</div>
 
 										<div class="tab-content-inner" data-content="login">

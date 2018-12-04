@@ -11,8 +11,9 @@ class UtilisateurService {
 
     @Transactional
     SecUser inscription(SecUser user, String authority){
-        user.save()
-        new SecUserRole(secUser: user, secRole: SecRole.findByAuthority(authority)).save()
+        user.save(flush:true)
+        def role = new SecUserRole(secUser: user, secRole: SecRole.findByAuthority(authority))
+        role.save()
         return user
     }
     def online(SecUser user){
@@ -26,6 +27,15 @@ class UtilisateurService {
         }
         return contains
     }
+
+    @Transactional
+    def delete(SecUser user){
+        SecUserRole.removeAll(user)
+        Message.where{expediteur == user || destinataire == user}.deleteAll()
+        MatchJoueur.where{joueur == user || adversaire == user}.deleteAll()
+        user.delete()
+    }
+
     MatchJoueur jouer(SecUser joueur, SecUser adversaire){
         if(adversaire == null){
             throw new Exception('user.notFound.message')

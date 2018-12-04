@@ -15,4 +15,6 @@ interface MessageService {
 
     Message save(Message message)
 
+    // void messageCure()
+
 }
