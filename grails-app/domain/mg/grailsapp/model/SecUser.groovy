@@ -34,5 +34,7 @@ class SecUser implements Serializable {
     static mapping = {
 	    password column: '`password`'
         photo column: 'photo', sqlType: 'longblob'
+        messages cascade: 'all-delete-orphan'
+        match cascade: 'all-delete-orphan'
     }
 }

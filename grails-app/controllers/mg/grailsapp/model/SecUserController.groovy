@@ -105,7 +105,7 @@ class SecUserController {
             return
         }
         SecUser u = SecUser.get(id)
-        //SecUserRole.removeAll(u)
+        SecUserRole.removeAll(u)
         u.delete()
 
         request.withFormat {
