@@ -38,7 +38,6 @@
 
     <script>
         var el = document.getElementById('holder');
-        var fileinput = document.getElementById('file');
 
         function stop_and_prevent(e) {
             e.stopPropagation();

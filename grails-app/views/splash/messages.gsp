@@ -87,7 +87,6 @@
 						<ul>
 							<sec:ifLoggedIn>
 								<li>Bienvenue <sec:username/>!</li>
-								<li><a href="#"><span>Mes messages</span></a></li>
 								<li class="has-dropdown btn-cta">
 									<a href="#">Mon Profil</a>
 									<ul class="dropdown" style="display: none;">

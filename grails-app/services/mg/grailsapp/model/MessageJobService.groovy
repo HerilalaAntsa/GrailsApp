@@ -1,7 +1,7 @@
 package mg.grailsapp.model
 
 import com.agileorbit.schwartz.SchwartzJob
-import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.quartz.JobExecutionContext

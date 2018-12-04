@@ -136,6 +136,16 @@ class SplashController {
     @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
     def profil()
     {
-        respond MatchJoueur.findAllByJoueurOrAdversaire(springSecurityService.currentUser, springSecurityService.currentUser)
+        SecUser user = springSecurityService.currentUser
+        respond MatchJoueur.findAllByJoueurOrAdversaire(user, user), model: ['photo':user.photo]
     }
+    @Secured(['ROLE_JOUEUR', 'ROLE_ADMIN'])
+    def editPhoto()
+    {
+        SecUser user = springSecurityService.currentUser
+        user.photo = params.file
+        user.save(flush: true)
+        render("SUCCESS")
+    }
+
 }

@@ -122,6 +122,11 @@
 			<div class="row">
 				<div class="col-md-12 col-md-offset-0 text-left">
 					<div class="row row-mt-15em">
+						<div class="pull-right photo-profil" id="holder">
+							<h2><span class="ti-user"></span> <sec:username/></h2>
+							<img width="140px" class="img-fluid img-thumbnail"  src="${photo}" alt="" id="pdp-image">
+							<div class="alert alert-danger invisible" id="error-upload"></div>
+						</div>
 						<h2>Match Joués par vous et contre vous</h2>
 						<sec:ifNotGranted roles="ROLE_JOUEUR">
 						<span class="text-danger">Vous ne pouvez pas lancer de match ou être un adversaire</span>
@@ -177,7 +182,53 @@
 	<asset:javascript src="theme/magnific-popup-options.js"/>
 	<!-- Main -->
 	<asset:javascript src="theme/main.js"/>
+	<script>
+        var el = document.getElementById('holder');
 
+        function stop_and_prevent(e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+        function load_images(files) {
+            var images = document.getElementById("pdp-image");
+            [].forEach.call(files, function(file) {
+                if (file.type.match('image/*')) {
+                    var reader = new FileReader();
+                    //var img = document.createElement('img');
+//                        img.src = event.target.result;
+                    // images.src = "/assets/"+file.name;
+                    reader.onload = function(){
+                        var $data = { 'title': 'Sample Photo Title', 'file': reader.result };
+                        $.ajax({
+                            type: 'POST',
+                            url:'${g.createLink( action:'editPhoto')}',
+                            data:$data,
+                            success: function(response) {
+                                images.src = reader.result;
+                            },
+                            error: function(response) {
+                                var elmt = document.getElementById("error-upload")
+                                elmt.innerHTML = "Error while uploading image";
+                                elmt.classList.remove("invisible");
+                            },
+                        });
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function onDrop(e) {
+            stop_and_prevent(e);
+            load_images(e.dataTransfer.files);
+            return false;
+        }
+
+        el.addEventListener('dragenter', stop_and_prevent);
+        el.addEventListener('dragover', stop_and_prevent);
+        el.addEventListener('drop', onDrop);
+	</script>
 	</body>
 </html>
 

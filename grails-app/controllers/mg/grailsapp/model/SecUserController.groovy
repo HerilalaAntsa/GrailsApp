@@ -6,7 +6,7 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured("ROLE_ADMIN")
 class SecUserController {
 
-    def springSecurityService
+    def utilisateurService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE",ajaxSaveIntegrationData : 'POST']
 
@@ -99,18 +99,16 @@ class SecUserController {
     }
 
     @Secured("ROLE_ADMIN")
-    def delete(Long id) {
-        if (id == null) {
+    def delete(SecUser user) {
+        if (user == null) {
             notFound()
             return
         }
-        SecUser u = SecUser.get(id)
-        //SecUserRole.removeAll(u)
-        u.delete()
+        utilisateurService.delete(user)
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'secUser.label', default: 'Utilisateur'), id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'secUser.label', default: 'Utilisateur'), user.id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }

@@ -4,8 +4,10 @@
 													</span>
 													<div class="chat-body clearfix">
 														<div class="header">
-															<strong class="primary-font">${message?.expediteur?.username}</strong> <small class="pull-right text-muted">
-															<span class="glyphicon glyphicon-time"></span><g:formatDate date="${message?.dateEnvoi}" type="datetime" style="MEDIUM"/></small>
+															<strong class="primary-font">${message?.expediteur?.username}</strong>
+															<small class="pull-right text-muted">
+																<span class="icon-clock"></span> <g:formatDate date="${message?.dateEnvoi}" type="datetime" style="MEDIUM"/>
+															</small>
 														</div>
 														<p>
 															${message?.contenu}
